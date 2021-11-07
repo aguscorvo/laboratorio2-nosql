@@ -19,22 +19,22 @@ public class UserController {
 
     @GetMapping
     public List<User> fetchAllUsers(){
-        return userService.getAllUsers();
+        return userService.getAll();
     }
 
     @PostMapping
     public /*TODO: Optional<Error>*/ void createUser(@RequestBody User request){
-        Optional<User> userByEmail = userService.getUserByEmail(request.getEmail());
+        Optional<User> userByEmail = userService.getByEmail(request.getEmail());
         if(userByEmail.isPresent()) {
             // TODO - Error 101
             return;
         }
-        userService.createUser(request);
+        userService.create(request);
     }
 
     @PutMapping
     public /*TODO: Optional<Error>*/ void addRolesToUser(@RequestBody User request){
-        Optional<User> userByEmail = userService.getUserByEmail(request.getEmail());
+        Optional<User> userByEmail = userService.getByEmail(request.getEmail());
         if(userByEmail.isEmpty()) {
             // TODO - Error 102
             return;
@@ -53,6 +53,6 @@ public class UserController {
     @GetMapping("/auth")
     public Map<String, Boolean> authenticateUser(@RequestBody User request){
         return Collections.singletonMap("authentication",
-                userService.userByEmailAndPasswordIsPresent(request.getEmail(), request.getPassword()));
+                userService.withCredentialsIsPresent(request.getEmail(), request.getPassword()));
     }
 }

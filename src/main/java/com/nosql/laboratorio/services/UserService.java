@@ -14,15 +14,15 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserByEmail(String email){
+    public Optional<User> getByEmail(String email){
         return userRepository.getUserByEmail(email);
     }
 
-    public boolean userByEmailAndPasswordIsPresent(String email, String password){
+    public boolean withCredentialsIsPresent(String email, String password){
         Optional<User> userByEmailAndPassword = userRepository.getUserByEmailAndPassword(email, password);
         return userByEmailAndPassword.isPresent();
     }
@@ -31,7 +31,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void createUser(User user){ userRepository.save(user); }
+    public void create(User user){ userRepository.save(user); }
 
     // AUX
 
