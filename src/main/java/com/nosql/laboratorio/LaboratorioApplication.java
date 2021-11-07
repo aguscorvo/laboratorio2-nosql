@@ -57,7 +57,7 @@ public class LaboratorioApplication {
 	}
 
 	private List<String> generateRoles(){
-		List<String> roles = Arrays.asList("Admin", "Viewer", "Editor", "Creator");
+		List<String> roles = Arrays.asList("Viewer", "Creator", "Editor", "Admin");
 
 		int maxRoles = roles.size();
 		int minRoles = 0;
