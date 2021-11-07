@@ -32,7 +32,7 @@ public class UserController {
         userService.create(request);
     }
 
-    @PutMapping
+    @PutMapping("/addRoles")
     public /*TODO: Optional<Error>*/ void addRolesToUser(@RequestBody User request){
         Optional<User> userByEmail = userService.getByEmail(request.getEmail());
         if(userByEmail.isEmpty()) {
@@ -45,10 +45,35 @@ public class UserController {
                 return;
             }
 
-            user.setRoles(userService.getUpdatedRoles(user, request.getRoles()));
+            user.setRoles(userService.getUpdatedRoles(user, request.getRoles(), true));
             userService.update(user);
         }
     }
+
+    @PutMapping("/removeRoles")
+    public /*TODO: Optional<Error>*/ void removeRolesFromUser(@RequestBody User request){
+        Optional<User> userByEmail = userService.getByEmail(request.getEmail());
+        if(userByEmail.isEmpty()) {
+            // TODO - Error 102
+            return;
+        }else {
+            User user = userByEmail.get();
+            if(!request.getPassword().equals(user.getPassword())){
+                // TODO - Error 104
+                return;
+            }
+            request.getRoles().forEach(role -> {
+                if (!user.getRoles().contains(role)){
+                    // TODO - Error 103
+                    return;
+                }
+            });
+
+            user.setRoles(userService.getUpdatedRoles(user, request.getRoles(), false));
+            userService.update(user);
+        }
+    }
+
 
     @GetMapping("/auth")
     public Map<String, Boolean> authenticateUser(@RequestBody User request){

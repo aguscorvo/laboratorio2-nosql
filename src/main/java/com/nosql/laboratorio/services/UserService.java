@@ -35,12 +35,16 @@ public class UserService {
 
     // AUX
 
-    public List<String> getUpdatedRoles (User user, List<String> newRoles ){
+    public List<String> getUpdatedRoles (User user, List<String> newRoles, boolean add ){
         List<String> roles = user.getRoles();
         if (roles!= null){
             newRoles.forEach(role -> {
-                if (!roles.contains(role)){
-                    roles.add(role);
+                if(add){
+                    if (!roles.contains(role)){
+                        roles.add(role);
+                    }
+                }else{
+                    roles.remove(role);
                 }
             });
             return roles;
