@@ -27,5 +27,24 @@ public class UserService {
         return userByEmailAndPassword.isPresent();
     }
 
+    public void update(User user){
+        userRepository.save(user);
+    }
+
     public void createUser(User user){ userRepository.save(user); }
+
+    // AUX
+
+    public List<String> getUpdatedRoles (User user, List<String> newRoles ){
+        List<String> roles = user.getRoles();
+        if (roles!= null){
+            newRoles.forEach(role -> {
+                if (!roles.contains(role)){
+                    roles.add(role);
+                }
+            });
+            return roles;
+        }
+        return newRoles;
+    }
 }

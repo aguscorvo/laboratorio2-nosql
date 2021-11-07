@@ -23,18 +23,36 @@ public class UserController {
     }
 
     @PostMapping
-    public /*TODO: Optional<Error>*/ void createUser(@RequestBody User user){
-        Optional<User> userByEmail = userService.getUserByEmail(user.getEmail());
+    public /*TODO: Optional<Error>*/ void createUser(@RequestBody User request){
+        Optional<User> userByEmail = userService.getUserByEmail(request.getEmail());
         if(userByEmail.isPresent()) {
-            // TODO
+            // TODO - Error 101
             return;
         }
-        userService.createUser(user);
+        userService.createUser(request);
+    }
+
+    @PutMapping
+    public /*TODO: Optional<Error>*/ void addRolesToUser(@RequestBody User request){
+        Optional<User> userByEmail = userService.getUserByEmail(request.getEmail());
+        if(userByEmail.isEmpty()) {
+            // TODO - Error 102
+            return;
+        }else {
+            User user = userByEmail.get();
+            if(!request.getPassword().equals(user.getPassword())){
+                // TODO - Error 104
+                return;
+            }
+
+            user.setRoles(userService.getUpdatedRoles(user, request.getRoles()));
+            userService.update(user);
+        }
     }
 
     @GetMapping("/auth")
-    public Map<String, Boolean> authenticateUser(@RequestBody User user){
+    public Map<String, Boolean> authenticateUser(@RequestBody User request){
         return Collections.singletonMap("authentication",
-                userService.userByEmailAndPasswordIsPresent(user.getEmail(), user.getPassword()));
+                userService.userByEmailAndPasswordIsPresent(request.getEmail(), request.getPassword()));
     }
 }
