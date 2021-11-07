@@ -18,13 +18,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public boolean getUserByEmail(String email){
-        Optional<User> userByEmail = userRepository.getUserByEmail(email);
-        return userByEmail.isPresent();
+    public Optional<User> getUserByEmail(String email){
+        return userRepository.getUserByEmail(email);
     }
 
     public boolean userByEmailAndPasswordIsPresent(String email, String password){
         Optional<User> userByEmailAndPassword = userRepository.getUserByEmailAndPassword(email, password);
         return userByEmailAndPassword.isPresent();
     }
+
+    public void createUser(User user){ userRepository.save(user); }
 }
