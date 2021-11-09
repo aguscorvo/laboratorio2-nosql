@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/users")
@@ -23,57 +22,19 @@ public class UserController {
     }
 
     @PostMapping
-    public /*TODO: Optional<Error>*/ void createUser(@RequestBody User request){
-        Optional<User> userByEmail = userService.getByEmail(request.getEmail());
-        if(userByEmail.isPresent()) {
-            // TODO - Error 101
-            return;
-        }
+    public void createUser(@RequestBody User request){
         userService.create(request);
     }
 
     @PutMapping("/addRoles")
-    public /*TODO: Optional<Error>*/ void addRolesToUser(@RequestBody User request){
-        Optional<User> userByEmail = userService.getByEmail(request.getEmail());
-        if(userByEmail.isEmpty()) {
-            // TODO - Error 102
-            return;
-        }else {
-            User user = userByEmail.get();
-            if(!request.getPassword().equals(user.getPassword())){
-                // TODO - Error 104
-                return;
-            }
-
-            user.setRoles(userService.getUpdatedRoles(user, request.getRoles(), true));
-            userService.update(user);
-        }
+    public void addRolesToUser(@RequestBody User request){
+        userService.addRolesToUser(request);
     }
 
     @PutMapping("/removeRoles")
-    public /*TODO: Optional<Error>*/ void removeRolesFromUser(@RequestBody User request){
-        Optional<User> userByEmail = userService.getByEmail(request.getEmail());
-        if(userByEmail.isEmpty()) {
-            // TODO - Error 102
-            return;
-        }else {
-            User user = userByEmail.get();
-            if(!request.getPassword().equals(user.getPassword())){
-                // TODO - Error 104
-                return;
-            }
-            request.getRoles().forEach(role -> {
-                if (!user.getRoles().contains(role)){
-                    // TODO - Error 103
-                    return;
-                }
-            });
-
-            user.setRoles(userService.getUpdatedRoles(user, request.getRoles(), false));
-            userService.update(user);
-        }
+    public void removeRolesFromUser(@RequestBody User request){
+        userService.removeRolesFromUser(request);
     }
-
 
     @GetMapping("/auth")
     public Map<String, Boolean> authenticateUser(@RequestBody User request){

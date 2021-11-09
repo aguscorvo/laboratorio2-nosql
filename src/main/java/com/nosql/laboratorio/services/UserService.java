@@ -31,7 +31,53 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void create(User user){ userRepository.save(user); }
+    public void create(User user){
+        Optional<User> userByEmail = getByEmail(user.getEmail());
+        if(userByEmail.isPresent()) {
+            // TODO - Error 101
+            return;
+        }
+        userRepository.save(user);
+    }
+
+    public void addRolesToUser (User user){
+        Optional<User> userByEmail = getByEmail(user.getEmail());
+        if(userByEmail.isEmpty()) {
+            // TODO - Error 102
+            return;
+        }else {
+            User userAux = userByEmail.get();
+            if(!user.getPassword().equals(userAux.getPassword())){
+                // TODO - Error 104
+                return;
+            }
+
+            userAux.setRoles(getUpdatedRoles(userAux, user.getRoles(), true));
+            update(userAux);
+        }
+    }
+
+    public void removeRolesFromUser(User user){
+        Optional<User> userByEmail = getByEmail(user.getEmail());
+        if(userByEmail.isEmpty()) {
+            // TODO - Error 102
+            return;
+        }else {
+            User userAux = userByEmail.get();
+            if(!user.getPassword().equals(user.getPassword())){
+                // TODO - Error 104
+                return;
+            }
+            user.getRoles().forEach(role -> {
+                if (!user.getRoles().contains(role)){
+                    // TODO - Error 103
+                    return;
+                }
+            });
+            userAux.setRoles(getUpdatedRoles(userAux, user.getRoles(), false));
+            update(userAux);
+        }
+    }
 
     // AUX
 
