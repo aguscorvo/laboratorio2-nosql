@@ -1,7 +1,7 @@
 package com.nosql.laboratorio.services;
 
 import com.nosql.laboratorio.dao.ErrorRepository;
-import com.nosql.laboratorio.models.Error;
+import com.nosql.laboratorio.models.ErrorObject;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ public class ErrorService {
 
     private final ErrorRepository errorRepository;
 
-    public List<Error> getAll() {
+    public List<ErrorObject> getAll() {
         return errorRepository.findAll();
     }
 
-    public void create(Error error){ errorRepository.save(error); }
+    public void create(ErrorObject error){ errorRepository.save(error); }
 
 }

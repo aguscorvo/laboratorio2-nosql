@@ -1,6 +1,10 @@
 package com.nosql.laboratorio.services;
 
 import com.nosql.laboratorio.dao.UserRepository;
+import com.nosql.laboratorio.exceptions.AlreadyExistsException;
+import com.nosql.laboratorio.exceptions.InvalidPasswordException;
+import com.nosql.laboratorio.exceptions.RoleNotFoundException;
+import com.nosql.laboratorio.exceptions.UserNotFoundException;
 import com.nosql.laboratorio.models.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,8 +38,7 @@ public class UserService {
     public void create(User user){
         Optional<User> userByEmail = getByEmail(user.getEmail());
         if(userByEmail.isPresent()) {
-            // TODO - Error 101
-            return;
+            throw new AlreadyExistsException("Ya existe un usuario registrado con el email " + user.getEmail() + " en el sistema");
         }
         userRepository.save(user);
     }
@@ -43,13 +46,11 @@ public class UserService {
     public void addRolesToUser (User user){
         Optional<User> userByEmail = getByEmail(user.getEmail());
         if(userByEmail.isEmpty()) {
-            // TODO - Error 102
-            return;
+            throw new UserNotFoundException("No existe ningún usuario registrado con el email " + user.getEmail() + " en el sistema");
         }else {
             User userAux = userByEmail.get();
             if(!user.getPassword().equals(userAux.getPassword())){
-                // TODO - Error 104
-                return;
+                throw new InvalidPasswordException("Contraseña incorrecta");
             }
 
             userAux.setRoles(getUpdatedRoles(userAux, user.getRoles(), true));
@@ -60,20 +61,25 @@ public class UserService {
     public void removeRolesFromUser(User user){
         Optional<User> userByEmail = getByEmail(user.getEmail());
         if(userByEmail.isEmpty()) {
-            // TODO - Error 102
-            return;
+            throw new UserNotFoundException("No existe ningún usuario registrado con el email " + user.getEmail() + " en el sistema");
         }else {
             User userAux = userByEmail.get();
-            if(!user.getPassword().equals(user.getPassword())){
-                // TODO - Error 104
-                return;
+            if(!user.getPassword().equals(userAux.getPassword())){
+                throw new InvalidPasswordException("Contraseña incorrecta");
             }
-            user.getRoles().forEach(role -> {
-                if (!user.getRoles().contains(role)){
-                    // TODO - Error 103
-                    return;
-                }
-            });
+            if (user.getRoles()!= null) {
+                user.getRoles().forEach(role -> {
+                    if(userAux.getRoles()!=null) {
+                        if (!userAux.getRoles().contains(role)) {
+                            throw new RoleNotFoundException("El rol " + role + " no se encuentra asociado al usuario registrado con el mail " + userAux.getEmail());
+                        }
+                    }else{
+                        throw new RoleNotFoundException("El rol " + role + " no se encuentra asociado al usuario registrado con el mail " + userAux.getEmail());
+                    }
+                });
+            }else{
+                throw new IllegalArgumentException("kjhkjh");
+            }
             userAux.setRoles(getUpdatedRoles(userAux, user.getRoles(), false));
             update(userAux);
         }

@@ -6,14 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-public class Error {
+public class ErrorObject {
     @Id
     private String id;
-    private int number;
+    private int error;
     private String description;
 
-    public Error(int number, String description) {
-        this.number = number;
+    public ErrorObject(int error, String description) {
+        this.error = error;
         this.description = description;
     }
 }

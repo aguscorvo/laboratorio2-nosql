@@ -1,6 +1,6 @@
 package com.nosql.laboratorio.controllers;
 
-import com.nosql.laboratorio.models.Error;
+import com.nosql.laboratorio.models.ErrorObject;
 import com.nosql.laboratorio.services.ErrorService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class ErrorController {
     private final ErrorService errorService;
 
     @GetMapping
-    public List<Error> fetchAllErrors(){
+    public List<ErrorObject> fetchAllErrors(){
         return errorService.getAll();
     }
 

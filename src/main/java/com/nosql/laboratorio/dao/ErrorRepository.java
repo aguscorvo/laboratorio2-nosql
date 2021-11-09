@@ -1,8 +1,8 @@
 package com.nosql.laboratorio.dao;
 
-import com.nosql.laboratorio.models.Error;
+import com.nosql.laboratorio.models.ErrorObject;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ErrorRepository
-        extends MongoRepository<Error, String> {
+        extends MongoRepository<ErrorObject, String> {
 }
