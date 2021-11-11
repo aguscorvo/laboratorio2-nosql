@@ -1,10 +1,24 @@
 {
 	"info": {
-		"_postman_id": "72d013b7-8ed1-4612-bbbf-6b899c1f2fd6",
+		"_postman_id": "65c090d9-8668-4b83-91e9-c35bdd57f2a2",
 		"name": "NoSQL - Laboratorio 2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "GetUserByEmail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "GetUserByEmail",
+					"host": [
+						"GetUserByEmail"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "GetUsers",
 			"event": [
@@ -596,6 +610,26 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

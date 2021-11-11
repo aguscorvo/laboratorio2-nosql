@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/users")
@@ -15,6 +16,11 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("{email}")
+    public Optional<User> fetchUser(@PathVariable String email){
+        return userService.getByEmail(email);
+    }
 
     @GetMapping
     public List<User> fetchAllUsers(){
