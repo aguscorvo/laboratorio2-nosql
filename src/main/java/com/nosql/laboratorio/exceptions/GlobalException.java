@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @ControllerAdvice
 public class GlobalException {
@@ -16,28 +18,28 @@ public class GlobalException {
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject> handleAlreadyExistsException (AlreadyExistsException ex) {
-        ErrorObject eObject = new ErrorObject(101, ex.getMessage());
+        ErrorObject eObject = new ErrorObject(101, ex.getMessage(), LocalDateTime.now());
         errorService.create(eObject);
         return new ResponseEntity<ErrorObject>(eObject, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject> handleInvalidPasswordException (InvalidPasswordException ex) {
-        ErrorObject eObject = new ErrorObject(104, ex.getMessage());
+        ErrorObject eObject = new ErrorObject(104, ex.getMessage(), LocalDateTime.now());
         errorService.create(eObject);
         return new ResponseEntity<ErrorObject>(eObject, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject> handleRoleNotFoundException (RoleNotFoundException ex) {
-        ErrorObject eObject = new ErrorObject(103, ex.getMessage());
+        ErrorObject eObject = new ErrorObject(103, ex.getMessage(), LocalDateTime.now());
         errorService.create(eObject);
         return new ResponseEntity<ErrorObject>(eObject, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorObject> handleUserNotFoundException (UserNotFoundException ex) {
-        ErrorObject eObject = new ErrorObject(102, ex.getMessage());
+        ErrorObject eObject = new ErrorObject(102, ex.getMessage(), LocalDateTime.now());
         errorService.create(eObject);
         return new ResponseEntity<ErrorObject>(eObject, HttpStatus.NOT_FOUND);
     }

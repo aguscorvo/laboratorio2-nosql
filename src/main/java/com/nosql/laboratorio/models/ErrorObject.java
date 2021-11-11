@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Data
 @Document
 public class ErrorObject {
@@ -11,9 +13,11 @@ public class ErrorObject {
     private String id;
     private int error;
     private String description;
+    private LocalDateTime created;
 
-    public ErrorObject(int error, String description) {
+    public ErrorObject(int error, String description, LocalDateTime created) {
         this.error = error;
         this.description = description;
+        this.created = created;
     }
 }
