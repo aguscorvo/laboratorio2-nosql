@@ -77,8 +77,6 @@ public class UserService {
                         throw new RoleNotFoundException("El rol " + role + " no se encuentra asociado al usuario registrado con el mail " + userAux.getEmail());
                     }
                 });
-            }else{ // cuando no se envian roles en el body
-                throw new IllegalArgumentException("kjhkjh"); // cambiar
             }
             userAux.setRoles(getUpdatedRoles(userAux, user.getRoles(), false));
             update(userAux);

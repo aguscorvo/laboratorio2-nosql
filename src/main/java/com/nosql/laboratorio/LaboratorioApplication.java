@@ -1,6 +1,7 @@
 package com.nosql.laboratorio;
 
 import com.github.javafaker.Faker;
+import com.nosql.laboratorio.dao.ErrorRepository;
 import com.nosql.laboratorio.dao.UserRepository;
 import com.nosql.laboratorio.models.User;
 import org.springframework.boot.CommandLineRunner;
@@ -18,15 +19,16 @@ public class LaboratorioApplication {
 	}
 
 	@Bean
-	CommandLineRunner runner(UserRepository repository) {
+	CommandLineRunner runner(UserRepository userRepository, ErrorRepository errorRepository) {
 		return args -> {
-			repository.deleteAll();
+			userRepository.deleteAll();
+			errorRepository.deleteAll();
 
 			Faker faker = new Faker(new Locale("es"));
 			int num = 100;
 
 			List<User> users = generateRandomUsers(faker, num);
-			repository.insert(users);
+			userRepository.insert(users);
 		};
 	}
 
@@ -56,7 +58,7 @@ public class LaboratorioApplication {
 		return users;
 	}
 
-	private List<String> generateRoles(){
+	/*private List<String> generateRoles_v1(){
 		List<String> roles = Arrays.asList("Viewer", "Creator", "Editor", "Admin");
 
 		int maxRoles = roles.size();
@@ -65,5 +67,21 @@ public class LaboratorioApplication {
 		int randomNumRoles = rand.nextInt(maxRoles-minRoles) + minRoles;
 
 		return roles.subList(0, randomNumRoles+1);
+	}*/
+
+	private List<String> generateRoles(){
+		List<String> roles = Arrays.asList("Viewer", "Creator", "Editor", "Admin");
+		List<String> ret = new ArrayList();
+
+		int maxRoles = roles.size();
+		Random rand = new Random();
+		for(int i=0; i<maxRoles;i++){
+			int verifier = rand.nextInt(3);
+			if (verifier == 2) {
+				ret.add(roles.get(i));
+			}
+		}
+
+		return ret;
 	}
 }
