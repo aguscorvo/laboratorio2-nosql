@@ -58,6 +58,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>springboot-mongo-docker</finalName>
 	</build>
 	<repositories>
 		<repository>

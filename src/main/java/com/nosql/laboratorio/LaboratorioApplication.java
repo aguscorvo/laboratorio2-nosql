@@ -40,7 +40,7 @@ public class LaboratorioApplication {
 			String lastName = faker.name().lastName();
 			String email = faker.internet().emailAddress(
 					firstName.toLowerCase().replace(" ", "")
-							.concat(lastName.toLowerCase().replace(" ", ""))
+							.concat(lastName.toLowerCase().replace(" ", "")+i)
 			);
 			String password = faker.internet().password();
 			List<String> roles = generateRoles();
@@ -57,17 +57,6 @@ public class LaboratorioApplication {
 		}
 		return users;
 	}
-
-	/*private List<String> generateRoles_v1(){
-		List<String> roles = Arrays.asList("Viewer", "Creator", "Editor", "Admin");
-
-		int maxRoles = roles.size();
-		int minRoles = 0;
-		Random rand = new Random();
-		int randomNumRoles = rand.nextInt(maxRoles-minRoles) + minRoles;
-
-		return roles.subList(0, randomNumRoles+1);
-	}*/
 
 	private List<String> generateRoles(){
 		List<String> roles = Arrays.asList("Viewer", "Creator", "Editor", "Admin");
